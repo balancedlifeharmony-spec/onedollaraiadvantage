@@ -1,0 +1,595 @@
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@700;900&display=swap');
+
+  :root {
+    --navy: #0B1D3A;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: #7A5E20;
+    --off-white: #F5F0E8;
+    --muted: #8A8070;
+    --chapter-bg: rgba(11,29,58,0.96);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .book-universe {
+    background: var(--navy);
+    min-height: 600px;
+    font-family: 'Barlow', sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle linear infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.6; }
+  }
+
+  .book-cover {
+    position: relative;
+    z-index: 10;
+    padding: 48px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .dollar-glyph {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--gold);
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+    letter-spacing: -4px;
+  }
+
+  .dollar-glyph::after {
+    content: '$1';
+    position: absolute;
+    inset: 0;
+    color: var(--gold);
+    -webkit-text-stroke: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 40%, 0 40%);
+    opacity: 0.15;
+  }
+
+  .ai-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 0.9;
+    color: var(--off-white);
+    letter-spacing: 6px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.55s forwards;
+  }
+
+  .advantage-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--gold);
+    letter-spacing: 12px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.7s forwards;
+    margin-bottom: 4px;
+  }
+
+  .gold-rule {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 20px auto;
+    opacity: 0;
+    animation: expand 0.6s 0.9s forwards;
+  }
+
+  @keyframes expand {
+    from { width: 0; opacity: 0; }
+    to { width: 60px; opacity: 1; }
+  }
+
+  .subtitle {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 1px;
+    max-width: 340px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.0s forwards;
+  }
+
+  .author-block {
+    margin-top: 24px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.1s forwards;
+  }
+
+  .author-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .publisher {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-top: 2px;
+  }
+
+  .hunger-badge {
+    margin-top: 16px;
+    padding: 6px 16px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    font-size: 10px;
+    color: var(--gold-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.2s forwards;
+  }
+
+  .chapter-nav {
+    position: relative;
+    z-index: 10;
+    padding: 0 20px 16px;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.3s forwards;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .ch-btn {
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    padding: 8px 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ch-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.2s;
+  }
+
+  .ch-btn:hover::before, .ch-btn.active::before {
+    transform: scaleY(1);
+  }
+
+  .ch-btn:hover .ch-num, .ch-btn.active .ch-num {
+    color: var(--navy);
+  }
+
+  .ch-btn:hover .ch-word, .ch-btn.active .ch-word {
+    color: var(--navy);
+    opacity: 1;
+  }
+
+  .ch-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+  }
+
+  .ch-word {
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .chapter-display {
+    position: relative;
+    z-index: 10;
+    margin: 0 20px 24px;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    padding: 28px 24px;
+    min-height: 240px;
+  }
+
+  .ch-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .ch-number-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: var(--gold);
+    line-height: 1;
+    opacity: 0.3;
+    min-width: 48px;
+  }
+
+  .ch-title-block {}
+
+  .ch-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .ch-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--off-white);
+    line-height: 1.1;
+  }
+
+  .ch-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .chapter-line {
+    font-size: 14px;
+    color: var(--off-white);
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+
+  .chapter-line.bold-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: 1;
+    letter-spacing: 0.5px;
+  }
+
+  .chapter-line.muted-line {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .final-line {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .cta-row {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    padding: 0 20px 32px;
+    flex-wrap: wrap;
+  }
+
+  .cta-primary {
+    flex: 1;
+    min-width: 140px;
+    background: var(--gold);
+    border: none;
+    border-radius: 2px;
+    padding: 14px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--navy);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .cta-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .cta-primary:active { transform: scale(0.98); }
+
+  .cta-secondary {
+    flex: 1;
+    min-width: 140px;
+    background: transparent;
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    padding: 14px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .cta-secondary:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+
+  .stats-row {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin: 0 20px 24px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.4s forwards;
+  }
+
+  .stat-cell {
+    padding: 16px 12px;
+    background: rgba(201,168,76,0.03);
+    text-align: center;
+    border-right: 1px solid var(--gold-dim);
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .ch-btn, .cta-primary, .cta-secondary { -webkit-tap-highlight-color: transparent; }
+</style>
+
+<div class="book-universe">
+  <div class="stars" id="stars"></div>
+
+  <div class="book-cover">
+    <div class="eyebrow">Victory Hour Enterprises — 2026</div>
+    <div class="dollar-glyph">$1</div>
+    <div class="ai-text">AI</div>
+    <div class="advantage-text">ADVANTAGE</div>
+    <div class="gold-rule"></div>
+    <div class="subtitle">How ordinary people build income, authority, and freedom using AI — without tech skills</div>
+    <div class="author-block">
+      <div class="author-name">Moe Elahresh</div>
+      <div class="publisher">Victory Hour Enterprises</div>
+    </div>
+    <div class="hunger-badge">10% of proceeds fight world hunger</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-number">10</div>
+      <div class="stat-label">Chapters</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">$1</div>
+      <div class="stat-label">Entry Point</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Leverage</div>
+    </div>
+  </div>
+
+  <div class="chapter-nav">
+    <div class="nav-label">Explore the chapters</div>
+    <div class="chapters-grid" id="chapGrid"></div>
+  </div>
+
+  <div class="chapter-display" id="chapterDisplay"></div>
+
+  <div class="cta-row">
+    <button class="cta-primary" onclick="sendPrompt('Build the full manuscript as a formatted Word doc ready for KDP right now')">Build KDP manuscript ↗</button>
+    <button class="cta-secondary" onclick="sendPrompt('Generate the full Gumroad product page and sales copy for The $1 AI Advantage')">Gumroad page ↗</button>
+  </div>
+</div>
+
+<script>
+const chapters = [
+  { num: 1, word: "Wake-Up", title: "AI Is Not Coming — It's Already Replacing You", lines: [
+    { text: "There's a dangerous sentence people keep repeating.", type: "normal" },
+    { text: '"AI is coming."', type: "bold" },
+    { text: "No. It's not coming. It's already here. And while most people are still debating it — it's quietly replacing them.", type: "normal" },
+    { text: "AI doesn't remove jobs. It removes people who don't adapt.", type: "bold" },
+    { text: "This is not a fear chapter. This is a wake-up chapter.", type: "muted" },
+  ], final: "AI is not replacing you. Inaction is." },
+  { num: 2, word: "The Lie", title: "The Lie That's Keeping You Broke", lines: [
+    { text: '"I just need to learn a little more before I start."', type: "bold" },
+    { text: "That sentence has killed more dreams than failure ever did. Because it feels right. It feels safe. But it's a trap.", type: "normal" },
+    { text: "You don't get paid for what you know. You get paid for what you do with what you know.", type: "bold" },
+    { text: "AI just exposed this lie. Before AI, you had an excuse. Now that excuse is gone.", type: "muted" },
+  ], final: "You're not stuck because you don't know enough. You're stuck because you haven't moved." },
+  { num: 3, word: "The Tool", title: "AI Is Just a Tool (The Pencil Analogy)", lines: [
+    { text: "AI is not magic. AI is not genius. AI is not special.", type: "bold" },
+    { text: "Imagine two people holding the same pencil. One draws a stick figure. The other paints the Sistine Chapel.", type: "normal" },
+    { text: "Same pencil. Different outcome. What changed? Not the tool. The person using it.", type: "bold" },
+    { text: "Stop asking what AI can do. Start asking what you can make AI do.", type: "muted" },
+  ], final: "AI is not the advantage. The person using it is." },
+  { num: 4, word: "Leverage", title: "You Don't Need Skills — You Need Leverage", lines: [
+    { text: "In the old world: skills = income. Experience = value. Time = money.", type: "normal" },
+    { text: "Today the equation is different. Leverage = income.", type: "bold" },
+    { text: "AI lets you write without being a writer. Build without being a developer. Design without being a designer.", type: "normal" },
+    { text: "The market doesn't reward credentials. It rewards solutions.", type: "bold" },
+  ], final: "You don't need more skill. You need more leverage." },
+  { num: 5, word: "$1 Model", title: "The $1 Model — How Small Offers Win Big", lines: [
+    { text: "Most people lose before they even start. Not because they're not capable. But because they aim too big, too soon.", type: "normal" },
+    { text: "Build something small. Sell it cheap. Move fast.", type: "bold" },
+    { text: "There's a moment that changes you. The moment someone pays you. Even if it's just $1.", type: "normal" },
+    { text: "Big ideas don't make money. Small executed ones do.", type: "bold" },
+  ], final: "Big ideas don't make money. Small executed ones do." },
+  { num: 6, word: "Products", title: "Turn Problems Into Products — The Engine", lines: [
+    { text: "Money doesn't follow ideas. It follows solutions.", type: "bold" },
+    { text: "The world is full of problems. People are confused, stuck, frustrated, overwhelmed. Every one of those moments is an opportunity.", type: "normal" },
+    { text: "Problem → Simple Solution → Fast Delivery. Memorize this framework.", type: "bold" },
+    { text: "Problems never stop. Which means you have unlimited product ideas.", type: "muted" },
+  ], final: "Every problem you see is a product waiting to be built." },
+  { num: 7, word: "Autopilot", title: "GPTs That Sell While You Sleep", lines: [
+    { text: "Building products is powerful. But building products that work without you — that's where everything changes.", type: "normal" },
+    { text: "Imagine someone at 2:00 AM has a problem, finds your GPT, gets value, pays.", type: "bold" },
+    { text: "You were asleep. But your system was working.", type: "bold" },
+    { text: "From effort to asset. Every GPT you create becomes an income-generating system.", type: "muted" },
+  ], final: "Build it once. Let it work forever." },
+  { num: 8, word: "Execute", title: "Build Fast — Kill Overthinking", lines: [
+    { text: "Overthinking doesn't look dangerous. It looks like planning. Researching. 'Being smart.'", type: "normal" },
+    { text: "But underneath it's hesitation. And hesitation kills momentum.", type: "bold" },
+    { text: "The 24-hour rule: if you get an idea, you have 24 hours to build it. Or your brain will kill it.", type: "bold" },
+    { text: "Launch at 70% ready. That last 30% is where people get stuck forever.", type: "muted" },
+  ], final: "Overthinking doesn't protect you. It keeps you stuck." },
+  { num: 9, word: "No Crowd", title: "You Don't Need an Audience — You Need an Offer", lines: [
+    { text: '"You need an audience before you can make money." One of the biggest lies on the internet.', type: "bold" },
+    { text: "You don't need an audience. You need something useful to offer. Because money doesn't come from attention — it comes from solving a problem.", type: "normal" },
+    { text: "One sale is more powerful than 1,000 likes. Likes don't pay. Value does.", type: "bold" },
+  ], final: "You don't need more people. You need more value." },
+  { num: 10, word: "System", title: "From One Idea to a System — Build Once, Expand Forever", lines: [
+    { text: "One product is good. But a system? That's where your life changes.", type: "normal" },
+    { text: "You don't build one thing. You build a system of connected solutions.", type: "bold" },
+    { text: "One idea makes money. A system builds freedom.", type: "bold" },
+    { text: "You didn't build a product. You built a machine.", type: "muted" },
+  ], final: "One idea makes money. A system builds freedom." },
+];
+
+function renderChapter(idx) {
+  const c = chapters[idx];
+  const display = document.getElementById('chapterDisplay');
+  display.style.opacity = 0;
+  display.style.transform = 'translateY(8px)';
+  display.style.transition = 'opacity 0.25s, transform 0.25s';
+  setTimeout(() => {
+    let linesHtml = c.lines.map(l => {
+      let cls = 'chapter-line';
+      if (l.type === 'bold') cls += ' bold-line';
+      if (l.type === 'muted') cls += ' muted-line';
+      return `<div class="${cls}">${l.text}</div>`;
+    }).join('');
+    display.innerHTML = `
+      <div class="ch-header">
+        <div class="ch-number-big">${String(c.num).padStart(2,'0')}</div>
+        <div class="ch-title-block">
+          <div class="ch-label">Chapter ${c.num}</div>
+          <div class="ch-title">${c.title}</div>
+        </div>
+      </div>
+      <div class="ch-body">${linesHtml}</div>
+      <div class="final-line">"${c.final}"</div>
+    `;
+    display.style.opacity = 1;
+    display.style.transform = 'translateY(0)';
+  }, 220);
+
+  document.querySelectorAll('.ch-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+}
+
+const grid = document.getElementById('chapGrid');
+chapters.forEach((c, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'ch-btn' + (i === 0 ? ' active' : '');
+  btn.innerHTML = `<div class="ch-num">${c.num}</div><span class="ch-word">${c.word}</span>`;
+  btn.addEventListener('click', () => renderChapter(i));
+  grid.appendChild(btn);
+});
+
+renderChapter(0);
+
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 40; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  s.style.animationDuration = (2 + Math.random() * 4) + 's';
+  s.style.animationDelay = (Math.random() * 5) + 's';
+  starsEl.appendChild(s);
+}
+</script>
